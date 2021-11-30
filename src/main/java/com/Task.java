@@ -1,15 +1,17 @@
 package com;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Task {
     private int ID;
     private String description;
     private long time;
-
-    public Task(int taskID, String desc, long time){
-        ID = taskID;
-        description = desc;
-        this.time = time;
-    }
 
     public int getID() {
         return ID;
