@@ -1,5 +1,7 @@
 package com;
 
+import com.models.Task;
+import com.repo.TaskRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 @RestController
 public class MainController {
     private final Service service;
+    private TaskRepository taskRepository;
 
     public MainController(Service service){
         this.service = service;
@@ -33,4 +36,5 @@ public class MainController {
     public List<Task> getAllTasks(){
         return service.getAllTasks();
     }
+
 }
