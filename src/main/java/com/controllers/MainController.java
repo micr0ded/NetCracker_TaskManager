@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
+@RestController
 public class MainController {
     private final Service service;
     private TaskRepository taskRepository;
