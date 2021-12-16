@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Data
@@ -17,5 +18,7 @@ public class Task {
     @Column
     private String description;
     @Column
-    private Long time;
+    private Date time;
+    @Column
+    private String email;
 }
