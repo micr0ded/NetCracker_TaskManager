@@ -10,13 +10,20 @@ import java.time.Clock;
 public class TestScheduler {
     private TaskRepository taskRepository;
     private  Iterable<Task> tmp;
+    private EmailSenderService senderService;
+    private String mailString;
 
-    public TestScheduler(TaskRepository repository){
+    public TestScheduler(TaskRepository repository, EmailSenderService mailSender){
         taskRepository = repository;
+        this.senderService = mailSender;
     }
 
     @Scheduled(fixedDelay = 10000)
     public void run() {
         tmp = taskRepository.findAll();
+        for(Task task: tmp){
+            mailString = task.getEmail();
+            senderService.sendEmail(mailString, "Subject", task.getDescription());
+        }
     }
 }

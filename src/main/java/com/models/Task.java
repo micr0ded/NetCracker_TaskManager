@@ -18,7 +18,7 @@ public class Task {
     @Column
     private String description;
     @Column
-    private Date time;
+    private Long time;
     @Column
     private String email;
 }
