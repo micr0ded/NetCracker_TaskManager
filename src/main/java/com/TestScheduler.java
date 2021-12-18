@@ -18,8 +18,11 @@ public class TestScheduler {
         senderService = mailSender;
     }
 
-   /* @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 1000)
     public void run() {
-        senderService.sendEmail("marble462@gmail.com", "Subject", "Body");
-    }*/
+        tmp = taskRepository.findAll();
+        for(Task task: tmp){
+            senderService.sendEmail("marble462@gmail.com", "Subj", task.getDescription());
+        }
+    }
 }

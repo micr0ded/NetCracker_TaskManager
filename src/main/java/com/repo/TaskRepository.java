@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TaskRepository extends CrudRepository<Task, Integer> {
-    @Query("select t.description, t.ID from Task t where t.description = ?1")
+    @Query("select t.description, t.ID from Task t where t.description = ?1 or t.ID = ?1 or t.time = ?1 or t.email = ?1")
     Iterable<Task> findTaskByDescription(String desc);
-    Task findTaskByTime(long time);
     Page<Task> findAll(Pageable pageable);
 }
