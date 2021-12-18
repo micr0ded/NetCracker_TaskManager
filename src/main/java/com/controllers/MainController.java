@@ -1,4 +1,5 @@
 package com.controllers;
+import com.models.TaskPageContent;
 import com.models.Task;
 import com.repo.TaskRepository;
 import org.springframework.data.domain.PageRequest;
@@ -26,8 +27,8 @@ public class MainController {
 
 
     @GetMapping("/tasks")
-    public Iterable<Task> findAllTasks(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam (value = "size", defaultValue = "3") int size){
-        return taskRepository.findAll(PageRequest.of(page, size));
+    public TaskPageContent findAllTasks(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam (value = "size", defaultValue = "3") int size){
+        return new TaskPageContent(taskRepository.findAll(PageRequest.of(page, size)).getContent(), taskRepository.findAll(PageRequest.of(page, size)).getSize());
     }
 
     @DeleteMapping("/tasks/{id}")
