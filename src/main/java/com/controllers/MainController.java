@@ -3,8 +3,10 @@ import com.models.TaskPageContent;
 import com.models.Task;
 import com.repo.TaskRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -24,7 +26,6 @@ public class MainController {
     public void addTask(@RequestBody Task task){
         taskRepository.save(task);
     }
-
 
     @GetMapping("/tasks")
     public TaskPageContent findAllTasks(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam (value = "size", defaultValue = "3") int size){
