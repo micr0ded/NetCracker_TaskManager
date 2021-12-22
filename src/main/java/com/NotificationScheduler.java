@@ -11,12 +11,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
 
 
 @Component
 @AllArgsConstructor
-public class TestScheduler {
+public class NotificationScheduler {
     private TaskRepository taskRepository;
     private TaskDeliveryRepository taskDeliveryRepository;
     private UsersRepository usersRepository;
