@@ -6,6 +6,7 @@ import com.models.Users;
 import com.repo.TaskDeliveryRepository;
 import com.repo.TaskRepository;
 import com.repo.UsersRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -14,19 +15,12 @@ import java.util.Optional;
 
 
 @Component
+@AllArgsConstructor
 public class TestScheduler {
     private TaskRepository taskRepository;
     private TaskDeliveryRepository taskDeliveryRepository;
     private UsersRepository usersRepository;
     private EmailSenderService senderService;
-
-    public TestScheduler(TaskRepository repository, TaskDeliveryRepository taskDeliveryRepository, UsersRepository usersRepository, EmailSenderService mailSender){
-        this.taskRepository = repository;
-        this.taskDeliveryRepository = taskDeliveryRepository;
-        this.usersRepository = usersRepository;
-        this.senderService = mailSender;
-
-    }
 
     @Scheduled(fixedDelay = 10000)
     public void run() {
