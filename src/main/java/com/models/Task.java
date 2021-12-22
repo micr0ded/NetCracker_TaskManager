@@ -22,5 +22,5 @@ public class Task {
     @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'X'")
     private Date time;
     @Column
-    private String email;
+    private Integer userId;
 }

@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Date;
 
 public interface TaskRepository extends CrudRepository<Task, Integer> {
-    @Query("select t.description, t.ID from Task t where t.description = ?1 or t.ID = ?1 or t.time = ?1 or t.email = ?1")
+    @Query("select t.description, t.ID from Task t where t.description = ?1 or t.ID = ?1 or t.time = ?1 or t.userId = ?1")
     Iterable<Task> findTaskByDescription(String desc);
     Iterable<Task> findTaskByTimeBefore(Date date);
     Page<Task> findAll(Pageable pageable);
