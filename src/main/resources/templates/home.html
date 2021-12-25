@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
       <title th:text = "'Tasks'" />
@@ -39,17 +40,38 @@
         <h1 class="display-4 fw-normal">Tasks</h1>
     </div>
 
-    <div class="container mt-5 mb-3 ">
+    <div class="container mt-5 mb-3">
         <div class="row mb-3">
             <div class="col-6 themed-grid-col text-center"><h2 th:text="Time"/></div>
             <div class="col-6 themed-grid-col text-center"><h2 th:text="Description"/></div>
         </div>
-        <div th:each="el : ${tasks}">
+        <div th:each="el : ${page.content} ">
             <div class="row mb-3">
                 <div class="col-6 themed-grid-col"><h3 th:text="${el.time}"/></div>
                 <div class="col-6 themed-grid-col"><h3 th:text="${el.description}"/></div>
             </div>
         </div>
     </div>
+
+  <div class="container mt-5 mb-3">
+      <ul class="pagination justify-content-center">
+          <li class="page-item disabled" th:if="${not page.hasPrevious()}">
+<!--              индексация с 1, но getNumber возвращает n-1-->
+            <a class="page-link" th:href="${url}+'?page='+${page.getNumber()}+'&size='+${page.getSize()}">Previous</a>
+          </li>
+          <li class="page-item" th:if="${page.hasPrevious()}">
+              <a class="page-link" th:href="${url}+'?page='+${page.getNumber()}+'&size='+${page.getSize()}">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" th:href="${url}+'?page=1&size='+${page.getSize()}">1</a></li>
+          <li class="page-item"><a class="page-link" th:href="${url}+'?page=2&size='+${page.getSize()}">2</a></li>
+          <li class="page-item"><a class="page-link" th:href="${url}+'?page=3&size='+${page.getSize()}">3</a></li>
+          <li class="page-item disabled" th:if="${not page.hasNext()}">
+              <a class="page-link" th:href="${url}+'?page='+${page.getNumber()+2}+'&size='+${page.getSize()}" tabindex="-1">Next</a>
+          </li>
+          <li class="page-item" th:if="${page.hasNext()}">
+              <a class="page-link" th:href="${url}+'?page='+${page.getNumber()+2}+'&size='+${page.getSize()}" tabindex="-1">Next</a>
+          </li>
+      </ul>
+  </div>
   </body>
 </html>
