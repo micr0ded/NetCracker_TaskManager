@@ -23,7 +23,7 @@ public class WebController {
     @GetMapping("/home")
     public String home(
             Model model,
-            @PageableDefault(sort = {"ID"}, direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(sort = {"ID"}, direction = Sort.Direction.ASC, size = 8) Pageable pageable
     ) {
         Page<Task> page;
 
