@@ -22,4 +22,6 @@ public class Task {
     private Date time;
     @Column
     private Integer userId;
+    @Column
+    private boolean isSent;
 }

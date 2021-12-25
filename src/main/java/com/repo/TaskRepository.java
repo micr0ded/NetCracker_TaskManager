@@ -3,8 +3,10 @@ package com.repo;
 import com.models.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -13,4 +15,8 @@ public interface TaskRepository extends CrudRepository<Task, Integer> {
     Iterable<Task> findTaskByDescription(String desc);
     Iterable<Task> findTaskByTimeBefore(Date date);
     Page<Task> findAll(Pageable pageable);
+    @Modifying
+    @Query("update Task t set t.isSent = ?2 where t.ID = ?1")
+    @Transactional
+    void updateFlag(boolean flag, int id);
 }
