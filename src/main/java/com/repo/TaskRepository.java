@@ -16,7 +16,7 @@ public interface TaskRepository extends CrudRepository<Task, Integer> {
     Iterable<Task> findTaskByTimeBefore(Date date);
     Page<Task> findAll(Pageable pageable);
     @Modifying
-    @Query("update Task t set t.isSent = ?2 where t.ID = ?1")
+    @Query("update Task t set t.isSent = ?1 where t.ID = ?2")
     @Transactional
     void updateFlag(boolean flag, int id);
 }
