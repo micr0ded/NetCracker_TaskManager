@@ -1,13 +1,14 @@
 package com.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Task {
@@ -17,8 +18,13 @@ public class Task {
     @Column
     private String description;
     @Column
-    private Long time;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'X'")
+    private Date time;
+    @Column
+    private Integer userId;
+    @Column
+    private boolean isSent;
+  
     public Task(String description, Long time) {
         this.description = description;
         this.time = time;
