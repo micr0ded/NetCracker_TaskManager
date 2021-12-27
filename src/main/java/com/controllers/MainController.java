@@ -3,13 +3,15 @@ import com.models.TaskPageContent;
 import com.models.Task;
 import com.repo.TaskRepository;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class MainController {
     private TaskRepository taskRepository;
 
@@ -47,9 +49,18 @@ public class MainController {
         taskRepository.save(task);
     }
 
-    @GetMapping("/tasks/find")
-    public Iterable<Task> findTasByDesc(@RequestParam (value = "desc") String desc){
-        return taskRepository.findTaskByDescription(desc);
+    @GetMapping("/tasks/search")
+    public Iterable<Task> findTaskBySmth(@RequestParam (value = "q") String desc){
+        return taskRepository.findTaskBySmth(desc);
     }
 
+//    @GetMapping("/tasks/find/id")
+//    public Iterable<Task> findTaskByID(@RequestParam (value = "id") int id) {
+//        return taskRepository.findTaskByID(id);
+//    }
+//
+//    @GetMapping("/tasks/find/time")
+//    public Iterable<Task> findTaskByTime(@RequestParam (value = "time") long Time){
+//        return taskRepository.findTaskByTime(Time);
+//    }
 }

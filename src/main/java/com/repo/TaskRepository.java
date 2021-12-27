@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 public interface TaskRepository extends CrudRepository<Task, Integer> {
+    @Query("select t from Task t where t.description = ?1 or t.ID= ?1 or t.time = ?1")
+    Iterable<Task> findTaskBySmth(String desc);
     @Query("select t.description, t.ID from Task t where t.description = ?1 or t.ID = ?1 or t.time = ?1 or t.userId = ?1")
     Iterable<Task> findTaskByDescription(String desc);
     Iterable<Task> findTaskByTimeBefore(Date date);

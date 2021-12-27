@@ -10,10 +10,10 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
     @Column
     private String description;
@@ -24,4 +24,9 @@ public class Task {
     private Integer userId;
     @Column
     private boolean isSent;
+  
+    public Task(String description, Long time) {
+        this.description = description;
+        this.time = time;
+    }
 }
