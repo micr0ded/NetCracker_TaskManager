@@ -25,7 +25,7 @@ public class Task {
     @Column
     private boolean isSent;
   
-    public Task(String description, Long time) {
+    public Task(String description, Date time) {
         this.description = description;
         this.time = time;
     }

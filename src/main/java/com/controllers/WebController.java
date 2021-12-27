@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
+
 @Controller
 public class WebController {
     private TaskRepository taskRepository;
@@ -36,7 +38,7 @@ public class WebController {
     }
 
     @PostMapping("/add")
-    public String addTask(@RequestParam Long time, @RequestParam String description, Model model) {
+    public String addTask(@RequestParam Date time, @RequestParam String description, Model model) {
         Task task = new Task(description, time);
         taskRepository.save(task);
         return "redirect:/home";
