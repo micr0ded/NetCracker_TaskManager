@@ -1,11 +1,11 @@
-package com;
+package com.service;
 
 import com.models.Task;
 import com.models.TaskDelivery;
-import com.models.Users;
+import com.models.User;
 import com.repo.TaskDeliveryRepository;
 import com.repo.TaskRepository;
-import com.repo.UsersRepository;
+import com.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,23 +18,23 @@ import java.util.Date;
 public class NotificationScheduler {
     private TaskRepository taskRepository;
     private TaskDeliveryRepository taskDeliveryRepository;
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
     private EmailSenderService senderService;
 
     @Scheduled(fixedDelay = 10000)
     public void run() {
-        Iterable<Task> taskList = taskRepository.findTaskByTimeBefore(new Date());
+        Iterable<Task> taskList = taskRepository.findTaskByTimeBeforeAndIsSentIsFalse(new Date());
         for(Task task: taskList){
             TaskDelivery delivery = taskDeliveryRepository.findByUserId(task.getUserId());
             switch (delivery.getDeliveryTypes()){
-                case Email:
-                    Users user = usersRepository.searchByUserId(task.getUserId());
-                    senderService.sendEmail(user.getEmail(), "test", task.getDescription());
-                    taskRepository.updateFlag(true, task.getID());
+                case EMAIL:
+                    User user = userRepository.findByUserId(task.getUserId());
+                    //senderService.sendEmail(user.getEmail(), "test", task.getDescription());
+                    //taskRepository.updateFlag(true, task.getID());
                     break;
-                case ToConsole:
-                    System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
-                    taskRepository.updateFlag(true, task.getID());
+                case CONSOLE:
+                    //System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
+                    //taskRepository.updateFlag(true, task.getID());
             }
         }
     }

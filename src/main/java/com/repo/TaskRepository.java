@@ -15,7 +15,7 @@ public interface TaskRepository extends CrudRepository<Task, Integer> {
     Iterable<Task> findTaskBySmth(String desc);
     @Query("select t.description, t.ID from Task t where t.description = ?1 or t.ID = ?1 or t.time = ?1 or t.userId = ?1")
     Iterable<Task> findTaskByDescription(String desc);
-    Iterable<Task> findTaskByTimeBefore(Date date);
+    Iterable<Task> findTaskByTimeBeforeAndIsSentIsFalse(Date date);
     Page<Task> findAll(Pageable pageable);
     @Modifying
     @Query("update Task t set t.isSent = ?1 where t.ID = ?2")
