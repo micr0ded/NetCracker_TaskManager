@@ -28,13 +28,13 @@ public class NotificationScheduler {
             TaskDelivery delivery = taskDeliveryRepository.findByUserId(task.getUserId());
             switch (delivery.getDeliveryTypes()){
                 case Email:
-                    Users user = usersRepository.searchByUserId(task.getUserId());
-                    senderService.sendEmail(user.getEmail(), "test", task.getDescription());
-                    taskRepository.updateFlag(true, task.getID());
+                    Users user = usersRepository.findByUserId(task.getUserId());
+                    //senderService.sendEmail(user.getEmail(), "test", task.getDescription());
+                    //taskRepository.updateFlag(true, task.getID());
                     break;
                 case ToConsole:
-                    System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
-                    taskRepository.updateFlag(true, task.getID());
+                    //System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
+                    //taskRepository.updateFlag(true, task.getID());
             }
         }
     }

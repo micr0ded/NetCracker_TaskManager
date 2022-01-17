@@ -14,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
     @Column
     private String description;
@@ -24,4 +25,11 @@ public class Task {
     private Integer userId;
     @Column
     private boolean isSent;
+
+    public Task(String description, Date time, Integer userId) {
+        this.description = description;
+        this.time = time;
+        this.userId = userId;
+        this.isSent = false;
+    }
 }
