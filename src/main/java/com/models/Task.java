@@ -18,15 +18,16 @@ public class Task {
     @Column
     private String description;
     @Column
-    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss'X'")
+    @DateTimeFormat(pattern="yyyy-mm-dd HH:mm")
     private Date time;
     @Column
     private Integer userId;
     @Column
-    private boolean isSent;
-  
-    public Task(String description, Long time) {
+    private boolean isSent = false;
+
+    public Task(String description, Date time, Integer userId) {
         this.description = description;
         this.time = time;
+        this.userId = userId;
     }
 }

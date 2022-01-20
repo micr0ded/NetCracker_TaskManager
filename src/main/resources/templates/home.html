@@ -16,6 +16,9 @@
           a {
               font-size: 20px;
           }
+          b {
+               font-size: 20px;
+           }
       </style>
 
       <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
@@ -39,13 +42,15 @@
 
     <div class="container mt-3 mb-3">
         <div class="row mb-3">
-            <div class="col-6 themed-grid-col text-center"><a th:text="Time"/></div>
-            <div class="col-6 themed-grid-col text-center"><a th:text="Description"/></div>
+            <div class="col-2 themed-grid-col text-center"><b th:text="Date"/></div>
+            <div class="col-1 themed-grid-col text-center"><b th:text="Time"/></div>
+            <div class="col-9 themed-grid-col text-center"><b th:text="Description"/></div>
         </div>
         <div th:each="el : ${page.content} ">
             <div class="row mb-3">
-                <div class="col-6 themed-grid-col"><a th:text="${el.time}"/></div>
-                <div class="col-6 themed-grid-col"><a th:text="${el.description}"/></div>
+                <div class="col-2 themed-grid-col text-center"><a th:text="${#dates.format(el.time, 'dd.MM.yyyy')}"/></div>
+                <div class="col-1 themed-grid-col text-center"><a th:text="${#dates.format(el.time, 'HH:mm')}"/></div>
+                <div class="col-9 themed-grid-col text-center"><a th:text="${el.description}"/></div>
             </div>
         </div>
     </div>
