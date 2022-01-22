@@ -1,30 +1,32 @@
 package com.controllers;
 
 import com.models.Task;
+import com.models.Users;
 import com.repo.TaskRepository;
+import com.repo.UsersRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
 @Controller
 public class WebController {
     private TaskRepository taskRepository;
-
+    private Users currentUser;
+    private UsersRepository usersRepository;
     public WebController(TaskRepository repository){
         this.taskRepository = repository;
     }
@@ -58,9 +60,23 @@ public class WebController {
         date = date + ' ' + time;
         System.out.println(date);
         DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm");
-        Task task = new Task(description, (Date)formatter.parse(date), 1);
+        Task task = new Task(description, (Date)formatter.parse(date), currentUser.getUserId());
 
         taskRepository.save(task);
+        return "redirect:/home";
+    }
+
+    @GetMapping("/login")
+    public String signIn(Model model) {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String signIn(@RequestParam String email, @RequestParam String password, Model model) {
+        Users user = usersRepository.findByEmail(email);
+        if (user.getPassword().equals(password)){
+            currentUser = user;
+        }
         return "redirect:/home";
     }
 

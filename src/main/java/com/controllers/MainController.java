@@ -4,14 +4,11 @@ import com.models.Task;
 import com.repo.TaskRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class MainController {
     private TaskRepository taskRepository;
 

@@ -13,4 +13,6 @@ public class Users {
     private Integer userId;
     @Column
     private String email;
+    @Column
+    private String password;
 }
