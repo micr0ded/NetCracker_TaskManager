@@ -18,10 +18,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        String passwordHeader= "12345";
-        String emailHeader = "evahomeboy@yandex.ru";
-        Users user = usersRepository.findByEmail(emailHeader);
-        if (user == null || !user.getPassword ().equals (passwordHeader)) {
+        String password= "12345";
+        String email = "evahomeboy@yandex.ru";
+        Users user = usersRepository.findByEmail(email);
+        if (user == null || !user.getPassword ().equals (password)) {
             throw new Exception("Invalid User email or Password. Please try again.");
         }
         return true;

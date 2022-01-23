@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
@@ -74,10 +73,8 @@ public class WebController {
 
     @PostMapping("/login")
     public String signIn(@RequestParam String email, @RequestParam String password, Model model) {
-        Users user = usersRepository.findByEmail(email);
-        if (user.getPassword().equals(password)){
-            currentUser = user;
-        }
+        Users user = new Users(email, password);
+        currentUser = user;
         return "redirect:/home";
     }
 
