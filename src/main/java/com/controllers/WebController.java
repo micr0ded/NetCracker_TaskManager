@@ -31,6 +31,11 @@ public class WebController {
         this.usersRepository = usersRepository;
     }
 
+    @GetMapping("/")
+    public String defPage(Model model){
+        return "login";
+    }
+
     @GetMapping("/home")
     public String home(
             Model model,
