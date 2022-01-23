@@ -33,7 +33,7 @@ public class NotificationScheduler {
                     //taskRepository.updateFlag(true, task.getID());
                     break;
                 case ToConsole:
-                    System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
+                    //System.out.println("Message to user №" + task.getUserId() + " : " + task.getDescription());
                     //taskRepository.updateFlag(true, task.getID());
             }
         }

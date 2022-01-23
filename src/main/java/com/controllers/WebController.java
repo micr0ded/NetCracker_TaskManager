@@ -27,8 +27,9 @@ public class WebController {
     private TaskRepository taskRepository;
     private Users currentUser;
     private UsersRepository usersRepository;
-    public WebController(TaskRepository repository){
+    public WebController(TaskRepository repository, UsersRepository usersRepository){
         this.taskRepository = repository;
+        this.usersRepository = usersRepository;
     }
 
     @GetMapping("/home")
