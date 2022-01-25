@@ -24,6 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (user == null || !user.getPassword ().equals (password)) {
             throw new Exception("Invalid User email or Password. Please try again.");
         }
+        WebController.currentUser = user;
         return true;
     }
 }
