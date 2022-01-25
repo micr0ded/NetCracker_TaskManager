@@ -43,10 +43,10 @@ public class WebController {
     ) {
         Page<Task> page;
 
-        if (WebController.currentUser.getUserId() == null){
+        if (currentUser.getUserId() == null){
             page = taskRepository.findAll(pageable);
         }
-        page = taskRepository.findAllByUserId(pageable, WebController.currentUser.getUserId());
+        page = taskRepository.findAllByUserId(pageable, currentUser.getUserId());
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/home");
