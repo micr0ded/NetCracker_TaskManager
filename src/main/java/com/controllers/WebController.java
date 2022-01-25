@@ -24,7 +24,7 @@ import java.util.Date;
 @Controller
 public class WebController {
     private TaskRepository taskRepository;
-    private Users currentUser;
+    public static Users currentUser;
     private UsersRepository usersRepository;
     public WebController(TaskRepository repository, UsersRepository usersRepository){
         this.taskRepository = repository;
