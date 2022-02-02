@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class WebController {
@@ -86,4 +88,20 @@ public class WebController {
         return "redirect:/home";
     }
 
+    @GetMapping("/registry")
+    public String registry(Model model){
+        return "registry";
+    }
+
+    @PostMapping("/registry")
+    public String registry(@RequestParam String email, @RequestParam String password, Model model) {
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
+                "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.matches()){
+            Users newUser = new Users(email, password);
+            usersRepository.save(newUser);
+        }
+        return "redirect:/home";
+    }
 }
