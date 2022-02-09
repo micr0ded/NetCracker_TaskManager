@@ -2,11 +2,10 @@ package com.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -14,6 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Users {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
     @Column
     private String email;

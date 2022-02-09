@@ -2,8 +2,7 @@ package com.controllers;
 
 import com.models.Task;
 import com.models.Users;
-import com.repo.TaskRepository;
-import com.repo.UsersRepository;
+import com.services.DatabaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,12 +24,11 @@ import java.util.regex.Pattern;
 
 @Controller
 public class WebController {
-    private TaskRepository taskRepository;
     public static Users currentUser;
-    private UsersRepository usersRepository;
-    public WebController(TaskRepository repository, UsersRepository usersRepository){
-        this.taskRepository = repository;
-        this.usersRepository = usersRepository;
+    private DatabaseService databaseService;
+
+    public WebController(DatabaseService databaseService){
+        this.databaseService = databaseService;
     }
 
     @GetMapping("/")
@@ -46,9 +44,9 @@ public class WebController {
         Page<Task> page;
 
         if (currentUser.getUserId() == null){
-            page = taskRepository.findAll(pageable);
+            page = databaseService.findAll(pageable);
         }
-        page = taskRepository.findAllByUserId(pageable, currentUser.getUserId());
+        page = databaseService.findAll(pageable, currentUser.getUserId());
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/home");
@@ -72,7 +70,7 @@ public class WebController {
         DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm");
         Task task = new Task(description, (Date)formatter.parse(date), currentUser.getUserId());
 
-        taskRepository.save(task);
+        databaseService.createNewTask(task);
         return "redirect:/home";
     }
 
@@ -100,7 +98,8 @@ public class WebController {
         Matcher matcher = pattern.matcher(email);
         if (matcher.matches()){
             Users newUser = new Users(email, password);
-            usersRepository.save(newUser);
+            databaseService.createNewUser(newUser);
+            currentUser = databaseService.findUser(email);
         }
         return "redirect:/home";
     }
