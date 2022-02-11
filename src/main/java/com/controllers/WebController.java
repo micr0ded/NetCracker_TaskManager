@@ -1,5 +1,12 @@
 package com.controllers;
 
+import com.UserEmail;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.models.Task;
 import com.models.Users;
 import com.services.DatabaseService;
@@ -38,16 +45,18 @@ public class WebController {
 
     @GetMapping("/home")
     public String home(
+            @UserEmail String email,
             Model model,
             @PageableDefault(sort = {"ID"}, direction = Sort.Direction.ASC, size = 8) Pageable pageable
     ) {
         Page<Task> page;
 
-        if (currentUser.getUserId() == null){
+        if (currentUser == null){
             page = databaseService.findAll(pageable);
         }
-        page = databaseService.findAll(pageable, currentUser.getUserId());
-
+        else {
+            page = databaseService.findAll(pageable, currentUser.getUserId());
+        }
         model.addAttribute("page", page);
         model.addAttribute("url", "/home");
         return "home";
@@ -81,9 +90,16 @@ public class WebController {
 
     @PostMapping("/login")
     public String signIn(@RequestParam String email, @RequestParam String password, Model model) {
-        Users user = new Users(email, password);
-        currentUser = user;
-        return "redirect:/home";
+        if (databaseService.findUser(email).getPassword().equals(password)) {
+            try {
+                Algorithm algorithm = Algorithm.HMAC256(email);
+                String token = JWT.create().withIssuer("auth0").sign(algorithm);
+                return "redirect:/home?token=" + token;
+            } catch (JWTCreationException exception) {
+                System.out.println("Error when creating login token");
+            }
+        }
+        return "redirect:/login";
     }
 
     @GetMapping("/registry")
