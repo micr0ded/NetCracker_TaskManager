@@ -1,5 +1,11 @@
 package com;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.controllers.WebController;
 import com.models.Users;
 import com.repo.UsersRepository;
@@ -12,9 +18,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Base64;
 
 public class LoginInterceptor implements HandlerInterceptor {
-    private final UsersRepository usersRepository;
+/*    private final UsersRepository usersRepository;
 
     public LoginInterceptor(UsersRepository usersRepository){
         this.usersRepository = usersRepository;
@@ -22,14 +29,18 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-      /*  String password = WebController.currentUser.getPassword();
-        String email = WebController.currentUser.getEmail();
-        Users user = usersRepository.findByEmail(email);
-        if (user == null || !user.getPassword ().equals (password)) {
-            throw new Exception("Invalid User email or Password. Please try again.");
+        String token = request.getParameter("token");
+        try {
+            Algorithm algorithm = Algorithm.HMAC256("secret");
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build(); //Reusable verifier instance
+            DecodedJWT jwt = verifier.verify(token);
+            String email = jwt.getClaim("userEmail").asString();
+            return true;
+        } catch (JWTDecodeException exception) {
+            System.out.println("Error with decoding token");
+            return false;
         }
-        WebController.currentUser = user;*/
-        Object tmp = request.getRequestURL();
-        return true;
-    }
+    }*/
 }

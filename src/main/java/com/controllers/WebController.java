@@ -1,12 +1,9 @@
 package com.controllers;
 
-import com.UserEmail;
+import com.annotations.UserId;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.models.Task;
 import com.models.Users;
 import com.services.DatabaseService;
@@ -31,7 +28,6 @@ import java.util.regex.Pattern;
 
 @Controller
 public class WebController {
-    public static Users currentUser;
     private DatabaseService databaseService;
 
     public WebController(DatabaseService databaseService){
@@ -39,24 +35,18 @@ public class WebController {
     }
 
     @GetMapping("/")
-    public String defPage(Model model){
+    public String defaultPage(Model model){
         return "login";
     }
 
     @GetMapping("/home")
     public String home(
-            @UserEmail String email,
+            @UserId Integer userId,
             Model model,
             @PageableDefault(sort = {"ID"}, direction = Sort.Direction.ASC, size = 8) Pageable pageable
     ) {
         Page<Task> page;
-
-        if (currentUser == null){
-            page = databaseService.findAll(pageable);
-        }
-        else {
-            page = databaseService.findAll(pageable, currentUser.getUserId());
-        }
+        page = databaseService.findAll(pageable, userId);
         model.addAttribute("page", page);
         model.addAttribute("url", "/home");
         return "home";
@@ -70,15 +60,14 @@ public class WebController {
     }
 
     @PostMapping("/add")
-    public String addTask(@RequestParam String date, @RequestParam String time, @RequestParam String description, Model model) throws ParseException {
+    public String addTask(@UserId Integer userId, @RequestParam String date, @RequestParam String time, @RequestParam String description, Model model) throws ParseException {
 
 //        System.out.println(date);
 //        System.out.println(time);
         date = date + ' ' + time;
         System.out.println(date);
         DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm");
-        Task task = new Task(description, (Date)formatter.parse(date), currentUser.getUserId());
-
+        Task task = new Task(description, (Date)formatter.parse(date), userId);
         databaseService.createNewTask(task);
         return "redirect:/home";
     }
@@ -92,8 +81,9 @@ public class WebController {
     public String signIn(@RequestParam String email, @RequestParam String password, Model model) {
         if (databaseService.findUser(email).getPassword().equals(password)) {
             try {
-                Algorithm algorithm = Algorithm.HMAC256(email);
-                String token = JWT.create().withIssuer("auth0").sign(algorithm);
+                Algorithm algorithm = Algorithm.HMAC256("secret");
+                Integer id = databaseService.findUser(email).getUserId();
+                String token = JWT.create().withIssuer("auth0").withClaim("userId", id).sign(algorithm);
                 return "redirect:/home?token=" + token;
             } catch (JWTCreationException exception) {
                 System.out.println("Error when creating login token");
@@ -115,7 +105,6 @@ public class WebController {
         if (matcher.matches()){
             Users newUser = new Users(email, password);
             databaseService.createNewUser(newUser);
-            currentUser = databaseService.findUser(email);
         }
         return "redirect:/home";
     }

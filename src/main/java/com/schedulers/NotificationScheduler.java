@@ -1,11 +1,11 @@
-package com;
+package com.schedulers;
 
 import com.models.Task;
 import com.models.TaskDelivery;
-import com.models.Users;
 import com.repo.TaskDeliveryRepository;
 import com.repo.TaskRepository;
 import com.repo.UsersRepository;
+import com.services.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class NotificationScheduler {
             TaskDelivery delivery = taskDeliveryRepository.findByUserId(task.getUserId());
             switch (delivery.getDeliveryTypes()){
                 case Email:
-                    Users user = usersRepository.searchByUserId(task.getUserId());
+                    //Users user = usersRepository.searchByUserId(task.getUserId());
                     //senderService.sendEmail(user.getEmail(), "test", task.getDescription());
                     //taskRepository.updateFlag(true, task.getID());
                     break;

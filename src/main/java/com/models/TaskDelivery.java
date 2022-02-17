@@ -1,6 +1,6 @@
 package com.models;
 
-import com.DeliveryTypes;
+import com.enums.DeliveryTypes;
 import lombok.Data;
 
 import javax.persistence.Column;
