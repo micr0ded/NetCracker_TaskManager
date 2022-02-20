@@ -10,8 +10,6 @@ public class TokenScheduler {
     @Scheduled(fixedDelay = 10000)
     public void run() {
         Date tmpDate = new Date();
-        for(Token tmp: TokenResolver.templatesTokens){
-
-        }
+        TokenResolver.templatesTokens.removeIf(tmp -> tmpDate.getTime() - tmp.getCreatingTime().getTime() > 600000);
     }
 }
