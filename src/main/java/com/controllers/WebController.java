@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.models.Task;
 import com.models.Users;
 import com.services.DatabaseService;
+import com.services.JWTAlgoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -81,9 +82,8 @@ public class WebController {
     public String signIn(@RequestParam String email, @RequestParam String password, Model model) {
         if (databaseService.findUser(email).getPassword().equals(password)) {
             try {
-                Algorithm algorithm = Algorithm.HMAC256("secret");
                 Integer id = databaseService.findUser(email).getUserId();
-                String token = JWT.create().withIssuer("auth0").withClaim("userId", id).sign(algorithm);
+                String token = JWTAlgoService.createToken(id);
                 return "redirect:/home?token=" + token;
             } catch (JWTCreationException exception) {
                 System.out.println("Error when creating login token");

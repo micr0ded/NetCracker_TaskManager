@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JWTAlgoService {
+
     public static JWTVerifier getVerifier(){
         Algorithm algorithm = Algorithm.HMAC256("secret");
         JWTVerifier verifier = JWT.require(algorithm)
@@ -18,5 +19,11 @@ public class JWTAlgoService {
         JWTVerifier verifier = JWTAlgoService.getVerifier();
         DecodedJWT jwt = verifier.verify(token);
         return jwt;
+    }
+
+    public static String createToken(Integer userID){
+        Algorithm algorithm = Algorithm.HMAC256("secret");
+        String token = JWT.create().withIssuer("auth0").withClaim("userId", userID).sign(algorithm);
+        return token;
     }
 }
