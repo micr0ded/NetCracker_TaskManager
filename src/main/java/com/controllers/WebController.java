@@ -105,6 +105,9 @@ public class WebController {
         if (matcher.matches()){
             Users newUser = new Users(email, password);
             databaseService.createNewUser(newUser);
+            Integer id = databaseService.findUser(email).getUserId();
+            String token = JWTAlgoService.createToken(id);
+            return "redirect:/home" + token;
         }
         return "redirect:/home";
     }
