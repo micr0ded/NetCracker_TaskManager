@@ -16,6 +16,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
     @Column
+    private String name;
+    @Column
     private String description;
     @Column
     @DateTimeFormat(pattern="yyyy-mm-dd HH:mm")
@@ -24,8 +26,13 @@ public class Task {
     private Integer userId;
     @Column
     private boolean isSent = false;
+    @Column
+    private boolean isDone = false;
+    @Column
+    private boolean isFailed = false;
 
-    public Task(String description, Date time, Integer userId) {
+    public Task(String name, String description, Date time, Integer userId) {
+        this.name = name;
         this.description = description;
         this.time = time;
         this.userId = userId;
