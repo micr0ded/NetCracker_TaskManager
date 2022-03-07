@@ -1,8 +1,6 @@
 package com.controllers;
 
 import com.annotations.UserId;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.models.Task;
 import com.models.Users;
@@ -29,6 +27,7 @@ import java.util.regex.Pattern;
 
 @Controller
 public class WebController {
+    private Integer tmpID;
     private DatabaseService databaseService;
 
     public WebController(DatabaseService databaseService){
@@ -50,6 +49,7 @@ public class WebController {
         page = databaseService.findAll(pageable, userId);
         model.addAttribute("page", page);
         model.addAttribute("url", "/home");
+        tmpID = userId;
         return "home";
     }
 
@@ -70,7 +70,8 @@ public class WebController {
         DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd HH:mm");
         Task task = new Task(description, (Date)formatter.parse(date), userId);
         databaseService.createNewTask(task);
-        return "redirect:/home";
+        String token = JWTAlgoService.createToken(userId);
+        return "redirect:/home?token=" + token;
     }
 
     @GetMapping("/login")

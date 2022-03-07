@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class TokenResolver implements HandlerMethodArgumentResolver {
     private final UsersRepository usersRepository;
-    public static List<Token> templatesTokens = new ArrayList<>();
 
     public TokenResolver(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
@@ -38,15 +37,8 @@ public class TokenResolver implements HandlerMethodArgumentResolver {
         Integer userId;
         String token = webRequest.getParameter("token");
         JWTVerifier verifier = JWTAlgoService.getVerifier();
-        if(token != null) {
-            DecodedJWT jwt = JWTAlgoService.getVerifiedJWT(token);
-            userId = jwt.getClaim("userId").asInt();
-            templatesTokens.add(new Token(token));
-        }
-        else {
-            DecodedJWT jwt = JWTAlgoService.getVerifiedJWT(templatesTokens.get(templatesTokens.size() - 1).getData());
-            userId = jwt.getClaim("userId").asInt();
-        }
+        DecodedJWT jwt = JWTAlgoService.getVerifiedJWT(token);
+        userId = jwt.getClaim("userId").asInt();
         return userId;
     }
 }

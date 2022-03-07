@@ -1,6 +1,5 @@
 package com.schedulers;
 
-import com.models.Token;
 import com.services.TokenResolver;
 import org.springframework.scheduling.annotation.Scheduled;
 
